@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 class Program
 {
@@ -6,17 +7,59 @@ class Program
     {
         try
         {
-            var calculadora = new Calcular();
-            var numeros = new List<double> { 10, 20, 30, 40, 50, 60, 10, 20,40 };
+            Console.WriteLine("Seleccione que funcionalidad desea ver:");
+            Console.WriteLine("1. Funcionalidad 1");
+            Console.WriteLine("2. Funcionalidad 2");
 
-            double media = calculadora.CalcularMedia(numeros);
+            string opcion = Console.ReadLine();
+            int opcionInt = opcion == string.Empty || int.TryParse(opcion, out _) == false ? 0 : int.Parse(opcion);
+
+            switch (opcionInt)
+            {
+                case 1:
+                    Funcionalidad1();
+                    break;
+                case 2:
+                    Funcionalidad2();
+                    break;
+                default:
+                    Console.WriteLine("Este numero de funcionalidad no existe, vuelva a intentarlo mas tarde.");
+                    break;
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static void Funcionalidad1()
+    {
+        try
+        {
+            var calculos = new Calcular();
+            var numeros = new List<double> { 10, 20, 30, 40, 50, 60, 10, 20, 40, 25 };
+
+            double media = calculos.CalcularMedia(numeros);
             Console.WriteLine($"La media de la lista de números es: {media}");
 
-            double mediaArmonica = calculadora.CalcularMediaArmonica(numeros);
+            double mediaArmonica = calculos.CalcularMediaArmonica(numeros);
             Console.WriteLine($"La media armónica de la lista de números es: {mediaArmonica}");
 
-            double mediana = calculadora.CalcularMediana(numeros);
+            double mediana = calculos.CalcularMediana(numeros);
             Console.WriteLine($"La mediana de la lista de números es: {mediana}");
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static void Funcionalidad2()
+    {
+        try
+        {
+            Console.WriteLine($"Soy la funcionalidad 2");
         }
         catch (ArgumentException ex)
         {
@@ -34,12 +77,7 @@ public class Calcular
             throw new ArgumentException("La lista de números no puede ser nula o vacía.");
         }
 
-        double suma = 0;
-
-        foreach (var numero in numeros)
-        {
-            suma += numero;
-        }
+        double suma = numeros.Sum(x => x);
 
         return Math.Round(suma / numeros.Count, 2);
     }
@@ -74,21 +112,17 @@ public class Calcular
             throw new ArgumentException("La lista de números no puede ser nula o vacía.");
         }
 
-        // Ordenar la lista de números
         var numerosOrdenados = numeros.OrderBy(x => x).ToList();
 
-        int n = numerosOrdenados.Count;
+        int cantidadNumeros = numerosOrdenados.Count;
 
-        // Calcular la mediana según la paridad de la cantidad de elementos
-        if (n % 2 == 0)
+        if (cantidadNumeros % 2 == 0)
         {
-            // Si hay un número par de elementos, la mediana es el promedio de los dos números centrales.
-            return Math.Round((numerosOrdenados[(n / 2) - 1] + numerosOrdenados[n / 2]) / 2.0, 2);
+            return Math.Round((numerosOrdenados[(cantidadNumeros / 2) - 1] + numerosOrdenados[cantidadNumeros / 2]) / 2.0, 2);
         }
         else
         {
-            // Si hay un número impar de elementos, la mediana es el número central.
-            return Math.Round(numerosOrdenados[n / 2], 2);
+            return Math.Round(numerosOrdenados[cantidadNumeros / 2], 2);
         }
     }
 }
