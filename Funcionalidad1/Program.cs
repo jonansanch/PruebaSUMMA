@@ -59,7 +59,16 @@ class Program
     {
         try
         {
-            Console.WriteLine($"Soy la funcionalidad 2");
+            Console.WriteLine("Ingrese el tamaño de la escalera (n):");
+            if (int.TryParse(Console.ReadLine(), out int cantidad) && cantidad > 0 && cantidad < 100)
+            {
+                var dibujar = new Dibujar();
+                dibujar.GetStaircase(cantidad);
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida. Debe ingresar un número entero en el rango de 1 a 99.");
+            }
         }
         catch (ArgumentException ex)
         {
@@ -123,6 +132,94 @@ public class Calcular
         else
         {
             return Math.Round(numerosOrdenados[cantidadNumeros / 2], 2);
+        }
+    }
+}
+
+public class Dibujar
+{
+    public void GetStaircase(int cantidad)
+    {
+        Console.WriteLine("\n\r");
+        Console.WriteLine("AgenteA.");
+        Console.WriteLine("\n\r");
+        AgenteA(cantidad);
+
+        Console.WriteLine("\n\r");
+        Console.WriteLine("AgenteB.");
+        Console.WriteLine("\n\r");
+        AgenteB(cantidad);
+
+        Console.WriteLine("\n\r");
+        Console.WriteLine("AgenteC.");
+        Console.WriteLine("\n\r");
+        AgenteC(cantidad);
+    }
+
+    static void AgenteA(int n)
+    {
+        for (int i = 1; i <= n; i++)
+        {
+            // Imprimir espacios
+            for (int j = 0; j < n - i; j++)
+            {
+                Console.Write(" ");
+            }
+
+            // Imprimir hashtags
+            for (int j = 0; j < i; j++)
+            {
+                Console.Write("#");
+            }
+
+            // Ir a la siguiente línea
+            Console.WriteLine();
+        }
+    }
+
+    static void AgenteB(int n)
+    {
+        for (int i = n; i >= 1; i--)
+        {
+            // Imprimir espacios
+            for (int j = 0; j < n - i; j++)
+            {
+                Console.Write(" ");
+            }
+
+            // Imprimir hashtags
+            for (int j = 0; j < i; j++)
+            {
+                Console.Write("#");
+            }
+
+            // Ir a la siguiente línea
+            Console.WriteLine();
+        }
+    }
+
+    static void AgenteC(int n)
+    {
+        for (int i = 1; i <= n; i++)
+        {
+            // Calcular la cantidad de espacios y hashtags en cada lado
+            int espacios = Math.Abs((n - i) / 2);
+            int hashtags = n - espacios * 2;
+
+            // Imprimir espacios a la izquierda
+            for (int j = 0; j < espacios; j++)
+            {
+                Console.Write(" ");
+            }
+
+            // Imprimir hashtags
+            for (int j = 0; j < hashtags; j++)
+            {
+                Console.Write("#");
+            }
+
+            // Ir a la siguiente línea
+            Console.WriteLine();
         }
     }
 }
